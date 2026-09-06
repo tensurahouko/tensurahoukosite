@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth scroll-pt-25">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>転スラ宝庫 - Official Website</title>
+    <link rel="icon" href="https://yt3.googleusercontent.com/PgUt_3VR_Mfo56NriRPSuUrMKXvPkqL1xmsVGqzoKxtkct4G3TszMu1Z70P8FldK4cefzIWXCQ=s160-c-k-c0x00ffffff-no-rj">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Noto Sans JP & Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        rimuru: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        slime: {
+                            glow: '#a5f3fc',
+                            accent: '#38bdf8',
+                            dark: '#0f172a'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans JP', 'Montserrat', 'sans-serif'],
+                        montserrat: ['Montserrat', 'sans-serif']
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow': 'glow 3s ease-in-out infinite alternate',
+                        'bubble': 'bubble 12s infinite linear',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-12px) rotate(2deg)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 15px rgba(56, 189, 248, 0.4)' },
+                            '100%': { boxShadow: '0 0 35px rgba(56, 189, 248, 0.8), 0 0 15px rgba(165, 243, 252, 0.6)' }
+                        },
+                        bubble: {
+                            '0%': { transform: 'translateY(100vh) scale(0.5)', opacity: '0' },
+                            '20%': { opacity: '0.6' },
+                            '80%': { opacity: '0.6' },
+                            '100%': { transform: 'translateY(-10vh) scale(1.2)', opacity: '0' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: linear-gradient(135deg, #e6f4fe 0%, #d4eeed 35%, #cbebff 70%, #e0f2fe 100%);
+            background-attachment: fixed;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        section, 
+        div[id] {
+        scroll-margin-top: 90px; /* 固定ヘッダーの高さに合わせて調整（例: 90px） */
+        }
+        /* Glassmorphism base */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px 0 rgba(14, 165, 233, 0.12);
+        }
+
+        .glass-panel-dark {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-6px);
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 16px 32px -8px rgba(14, 165, 233, 0.25);
+            border-color: #38bdf8;
+        }
+
+        /* Rimuru Slime Glow Border */
+        .slime-border {
+            position: relative;
+        }
+        .slime-border::after {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, #38bdf8, #a5f3fc, #818cf8, #38bdf8);
+            border-radius: inherit;
+            z-index: -1;
+            background-size: 300% 300%;
+            animation: moveGradient 6s ease infinite;
+        }
+
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e0f2fe;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #38bdf8;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0284c7;
+        }
+
+        /* Background Slime Bubbles Container */
+        #bubbles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -50px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(56, 189, 248, 0.3));
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+        }
+    </style>
+</head>
+<body class="relative min-h-screen flex flex-col justify-between">
+
+    <div id="bubbles-container"></div>
+
+    <div class="relative z-10 flex-grow flex flex-col">
+
+        <header class="sticky top-0 z-50 glass-panel border-b border-white/60">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-20">
+                    <!-- Brand Logo / Name -->
+                    <a href="#" class="flex items-center gap-3 group">
+                        <div class="relative w-11 h-11 rounded-full overflow-hidden p-0.5 bg-gradient-to-tr from-sky-400 to-cyan-200 shadow-md group-hover:scale-105 transition-transform duration-300">
+                            <img src="https://yt3.googleusercontent.com/PgUt_3VR_Mfo56NriRPSuUrMKXvPkqL1xmsVGqzoKxtkct4G3TszMu1Z70P8FldK4cefzIWXCQ=s160-c-k-c0x00ffffff-no-rj" 
+                                 alt="転スラ宝庫 アイコン" 
+                                 class="w-full h-full object-cover rounded-full"
+                                 onerror="this.src='https://placehold.co/160x160/38bdf8/ffffff?text=宝庫'">
+                        </div>
+                        <div>
+                            <span class="font-black text-2xl tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-sky-600 via-cyan-600 to-blue-700">
+                                転スラ宝庫
+                            </span>
+                            <span class="block text-[10px] tracking-widest text-sky-600 font-montserrat uppercase font-semibold">Official Website</span>
+                        </div>
+                    </a>
+
+                    <!-- Desktop Nav Links -->
+                    <nav class="hidden md:flex items-center space-x-1 lg:space-x-2 font-medium text-slate-700">
+                        <a href="#about" class="px-3 py-2 rounded-xl hover:bg-sky-100/60 hover:text-sky-600 transition-colors">概要</a>
+                        <a href="#videos" class="px-3 py-2 rounded-xl hover:bg-sky-100/60 hover:text-sky-600 transition-colors">注目動画</a>
+                        <a href="#features" class="px-3 py-2 rounded-xl hover:bg-sky-100/60 hover:text-sky-600 transition-colors">コンテンツ</a>
+                        <a href="#favorites" class="px-3 py-2 rounded-xl hover:bg-sky-100/60 hover:text-sky-600 transition-colors">推しキャラ</a>
+                    </nav>
+
+                    <!-- Subscribe Action Button -->
+                    <div class="flex items-center gap-3">
+                        <a href="https://www.youtube.com/@tensura-4" target="_blank" rel="noopener noreferrer" 
+                           class="relative inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full font-bold text-white bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 shadow-lg shadow-red-500/30 hover:shadow-red-500/50 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0">
+                            <i class="fa-brands fa-youtube text-xl"></i>
+                            <span class="hidden sm:inline">チャンネル登録</span>
+                            <span class="text-xs bg-white/20 px-2 py-0.5 rounded-full font-montserrat">6人</span>
+                        </a>
+
+                        <!-- Mobile menu button -->
+                        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-xl bg-white/50 text-slate-700 hover:bg-white/80 focus:outline-none">
+                            <i class="fa-solid fa-bars text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation Drawer -->
+            <div id="mobile-menu" class="hidden md:hidden border-t border-white/40 bg-white/90 backdrop-blur-md px-4 pt-2 pb-4 space-y-2 text-slate-700 font-medium">
+                <a href="#about" class="mobile-link block px-3 py-2 rounded-lg hover:bg-sky-100">概要</a>
+                <a href="#videos" class="mobile-link block px-3 py-2 rounded-lg hover:bg-sky-100">注目動画</a>
+                <a href="#features" class="mobile-link block px-3 py-2 rounded-lg hover:bg-sky-100">コンテンツ</a>
+                <a href="#favorites" class="mobile-link block px-3 py-2 rounded-lg hover:bg-sky-100">推しキャラ</a>
+            </div>
+        </header>
+
+        <main class="flex-grow">
+            <section id="about" class="relative py-12 md:py-20 overflow-hidden">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="glass-panel slime-border rounded-3xl p-6 sm:p-10 md:p-12 relative overflow-hidden">
+                        
+                        <!-- Decorative background glow -->
+                        <div class="absolute -right-16 -bottom-16 w-80 h-80 bg-gradient-to-br from-cyan-300/40 to-sky-400/20 rounded-full blur-3xl pointer-events-none"></div>
+                        <div class="absolute -left-16 -top-16 w-64 h-64 bg-gradient-to-br from-blue-300/30 to-indigo-300/20 rounded-full blur-2xl pointer-events-none"></div>
+
+                        <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12 relative z-10">
+                            <!-- Channel Avatar with Slime Glow FX -->
+                            <div class="relative flex-shrink-0 animate-float">
+                                <div class="w-36 h-36 sm:w-44 sm:h-44 rounded-full p-1.5 bg-gradient-to-tr from-sky-400 via-cyan-300 to-indigo-300 shadow-2xl animate-glow">
+                                    <img src="https://yt3.googleusercontent.com/PgUt_3VR_Mfo56NriRPSuUrMKXvPkqL1xmsVGqzoKxtkct4G3TszMu1Z70P8FldK4cefzIWXCQ=s160-c-k-c0x00ffffff-no-rj" 
+                                         alt="転スラ宝庫 アイコン" 
+                                         class="w-full h-full object-cover rounded-full bg-sky-50"
+                                         onerror="this.src='https://placehold.co/200x200/38bdf8/ffffff?text=転スラ宝庫'">
+                                </div>
+                                <div class="absolute bottom-1 right-1 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full shadow-lg border border-sky-200 flex items-center gap-1.5 text-xs font-bold text-sky-700">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                                    <span>配信中・更新中</span>
+                                </div>
+                            </div>
+
+                            <!-- Channel Details -->
+                            <div class="text-center md:text-left flex-grow">
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100/80 border border-sky-300/60 text-sky-700 text-xs font-bold mb-3">
+                                    <i class="fa-solid fa-crown text-amber-500"></i>
+                                    <span>『転生したらスライムだった件』系チャンネル</span>
+                                </div>
+                                
+                                <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-slate-800 tracking-tight leading-tight mb-3">
+                                    転スラ宝庫
+                                </h1>
+                                
+                                <p class="text-sky-600 font-semibold text-lg mb-4">
+                                    <a href="https://www.youtube.com/@tensura-4" target="_blank" rel="noopener noreferrer" class="hover:underline">
+                                        @tensura-4 <i class="fa-solid fa-arrow-up-right-from-square text-xs ml-1"></i>
+                                    </a>
+                                </p>
+
+                                <div class="bg-white/70 backdrop-blur-sm p-4 sm:p-5 rounded-2xl border border-sky-200/60 mb-6 text-slate-700 text-base sm:text-lg leading-relaxed font-medium shadow-sm">
+                                    転スラの解説、ゲーム実況などをします。<br>
+                                    転スラコンテンツをいっぱい出します。<br>
+                                    転スラが好きです。<br>
+                                    好きなキャラは<span class="font-bold text-sky-600">リムル</span>と<span class="font-bold text-indigo-600">ディーノ</span>です。あと<span class="font-bold text-emerald-600">リョウタ</span>とかですね。
+                                </div>
+
+                                <!-- Quick Stats Badges -->
+                                <div class="flex flex-wrap justify-center md:justify-start gap-4">
+                                    <div class="bg-white/80 rounded-2xl px-5 py-3 border border-white shadow-sm flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-red-100 text-red-600 flex items-center justify-center text-xl">
+                                            <i class="fa-brands fa-youtube"></i>
+                                        </div>
+                                        <div class="text-left">
+                                            <div class="text-xs text-slate-500 font-medium">チャンネル登録者</div>
+                                            <div class="text-xl font-black text-slate-800 font-montserrat" id="sub-counter">6人</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white/80 rounded-2xl px-5 py-3 border border-white shadow-sm flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center text-xl">
+                                            <i class="fa-solid fa-gamepad"></i>
+                                        </div>
+                                        <div class="text-left">
+                                            <div class="text-xs text-slate-500 font-medium">ジャンル</div>
+                                            <div class="text-sm font-bold text-slate-800">解説 & ゲーム実況・MAD</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white/80 rounded-2xl px-5 py-3 border border-white shadow-sm flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-600 flex items-center justify-center text-xl">
+                                            <i class="fa-solid fa-heart"></i>
+                                        </div>
+                                        <div class="text-left">
+                                            <div class="text-xs text-slate-500 font-medium">最推し</div>
+                                            <div class="text-sm font-bold text-slate-800">リムル＝テンペスト</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-4">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="bg-gradient-to-r from-slate-900 via-sky-950 to-slate-900 text-sky-100 rounded-2xl p-5 border border-sky-400/40 shadow-xl flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-sky-500/20 border border-sky-400/60 flex items-center justify-center text-sky-300 text-2xl flex-shrink-0 animate-pulse">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <div class="text-xs font-bold text-sky-400 font-montserrat tracking-widest uppercase mb-1">
+                                《 告知・解告 》
+                            </div>
+                            <p class="text-sm sm:text-base leading-relaxed text-slate-200 font-mono">
+                                「告。当チャンネル『転スラ宝庫』では、好きなキャラランキングやMAD動画、オリジナルCM案などの最新注目動画を公開中。YouTubeにてチャンネル登録・高評価を推奨します。」
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="videos" class="py-12">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex flex-col md:flex-row items-center justify-between mb-8 gap-4">
+                        <div>
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 text-red-600 text-xs font-extrabold mb-2">
+                                <i class="fa-brands fa-youtube"></i>
+                                <span>YouTube Pickups</span>
+                            </div>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-wide">
+                                注目動画ピックアップ
+                            </h2>
+                            <p class="text-slate-600 text-sm mt-1">「転スラ宝庫」からおすすめの最新＆人気動画をお届け！</p>
+                        </div>
+                        <a href="https://www.youtube.com/@tensura-4" target="_blank" rel="noopener noreferrer" 
+                           class="px-5 py-2.5 rounded-xl bg-white border border-sky-300 text-sky-700 font-bold hover:bg-sky-50 transition-colors text-sm shadow-sm flex items-center gap-2">
+                            <span>YouTubeで他の動画も見る</span>
+                            <i class="fa-solid fa-external-link-alt text-xs"></i>
+                        </a>
+                    </div>
+
+                    <!-- Video Grid Cards with YouTube Thumbnails -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        
+                        <!-- Video 1: 転スラ個人的に好きなキャラランキング -->
+                        <div class="glass-card rounded-2xl overflow-hidden border-2 border-sky-200/80 flex flex-col justify-between shadow-lg group">
+                            <div>
+                                <a href="https://youtu.be/EaPCahLFMZg?si=lwuzOdanUq1y3Q_E" target="_blank" rel="noopener noreferrer" class="relative block w-full aspect-video overflow-hidden bg-slate-900">
+                                    <img src="https://img.youtube.com/vi/EaPCahLFMZg/maxresdefault.jpg" 
+                                         alt="転スラ個人的に好きなキャラランキング サムネイル" 
+                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+                                         onerror="this.src='https://img.youtube.com/vi/EaPCahLFMZg/hqdefault.jpg'">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 group-hover:from-black/40 transition-colors"></div>
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <div class="w-14 h-14 rounded-full bg-red-600/90 text-white flex items-center justify-center text-xl shadow-xl group-hover:scale-110 group-hover:bg-red-600 transition-all">
+                                            <i class="fa-solid fa-play ml-1"></i>
+                                        </div>
+                                    </div>
+                                    <span class="absolute bottom-2 right-2 bg-black/80 text-white text-[10px] font-mono font-bold px-2 py-0.5 rounded backdrop-blur-sm">YouTube</span>
+                                </a>
+                                <div class="p-5">
+                                    <div class="inline-block px-2.5 py-0.5 rounded-md bg-amber-100 text-amber-800 text-xs font-bold mb-2">
+                                        <i class="fa-solid fa-trophy mr-1"></i>ランキング
+                                    </div>
+                                    <h3 class="font-extrabold text-slate-800 text-base leading-snug mb-2 group-hover:text-sky-600 transition-colors">
+                                        転スラ個人的に好きなキャラランキング
+                                    </h3>
+                                    <p class="text-slate-600 text-xs leading-relaxed">
+                                        「転スラ宝庫」による大好きなキャラクターランキング！上位にランクインするのはどのキャラクターか！？
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="p-4 pt-0">
+                                <a href="https://youtu.be/EaPCahLFMZg?si=lwuzOdanUq1y3Q_E" target="_blank" rel="noopener noreferrer"
+                                   class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md transition-transform hover:scale-[1.02]">
+                                    <i class="fa-brands fa-youtube text-base"></i>
+                                    <span>動画を見に行く</span>
+                                    <i class="fa-solid fa-arrow-right text-[10px] ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Video 2: あったらいいなと思う転スラ第5期CM -->
+                        <div class="glass-card rounded-2xl overflow-hidden border-2 border-cyan-200/80 flex flex-col justify-between shadow-lg group">
+                            <div>
+                                <a href="https://youtu.be/r0XrbeDZ35Q?si=xl9vabNqf0ZNZz6Y" target="_blank" rel="noopener noreferrer" class="relative block w-full aspect-video overflow-hidden bg-slate-900">
+                                    <img src="https://img.youtube.com/vi/r0XrbeDZ35Q/maxresdefault.jpg" 
+                                         alt="あったらいいなと思う転スラ第5期CM サムネイル" 
+                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+                                         onerror="this.src='https://img.youtube.com/vi/r0XrbeDZ35Q/hqdefault.jpg'">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 group-hover:from-black/40 transition-colors"></div>
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <div class="w-14 h-14 rounded-full bg-red-600/90 text-white flex items-center justify-center text-xl shadow-xl group-hover:scale-110 group-hover:bg-red-600 transition-all">
+                                            <i class="fa-solid fa-play ml-1"></i>
+                                        </div>
+                                    </div>
+                                    <span class="absolute bottom-2 right-2 bg-black/80 text-white text-[10px] font-mono font-bold px-2 py-0.5 rounded backdrop-blur-sm">YouTube</span>
+                                </a>
+                                <div class="p-5">
+                                    <div class="inline-block px-2.5 py-0.5 rounded-md bg-sky-100 text-sky-800 text-xs font-bold mb-2">
+                                        <i class="fa-solid fa-tv mr-1"></i>創作CM
+                                    </div>
+                                    <h3 class="font-extrabold text-slate-800 text-base leading-snug mb-2 group-hover:text-sky-600 transition-colors">
+                                        あったらいいなと思う転スラ第5期CM
+                                    </h3>
+                                    <p class="text-slate-600 text-xs leading-relaxed">
+                                        アニメ続編への愛と期待を込めて作成されたコンセプトCM動画！愛溢れる演出は必見です。
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="p-4 pt-0">
+                                <a href="https://youtu.be/r0XrbeDZ35Q?si=xl9vabNqf0ZNZz6Y" target="_blank" rel="noopener noreferrer"
+                                   class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md transition-transform hover:scale-[1.02]">
+                                    <i class="fa-brands fa-youtube text-base"></i>
+                                    <span>動画を見に行く</span>
+                                    <i class="fa-solid fa-arrow-right text-[10px] ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Video 3: 【MAD】転生したらスライムだった件×オレンジ -->
+                        <div class="glass-card rounded-2xl overflow-hidden border-2 border-indigo-200/80 flex flex-col justify-between shadow-lg group">
+                            <div>
+                                <a href="https://youtu.be/VTKSed8UH-4?si=1adScGzHDKI2Q1pC" target="_blank" rel="noopener noreferrer" class="relative block w-full aspect-video overflow-hidden bg-slate-900">
+                                    <img src="https://img.youtube.com/vi/VTKSed8UH-4/maxresdefault.jpg" 
+                                         alt="【MAD】転生したらスライムだった件×オレンジ サムネイル" 
+                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+                                         onerror="this.src='https://img.youtube.com/vi/VTKSed8UH-4/hqdefault.jpg'">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 group-hover:from-black/40 transition-colors"></div>
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <div class="w-14 h-14 rounded-full bg-red-600/90 text-white flex items-center justify-center text-xl shadow-xl group-hover:scale-110 group-hover:bg-red-600 transition-all">
+                                            <i class="fa-solid fa-play ml-1"></i>
+                                        </div>
+                                    </div>
+                                    <span class="absolute bottom-2 right-2 bg-black/80 text-white text-[10px] font-mono font-bold px-2 py-0.5 rounded backdrop-blur-sm">YouTube</span>
+                                </a>
+                                <div class="p-5">
+                                    <div class="inline-block px-2.5 py-0.5 rounded-md bg-orange-100 text-orange-800 text-xs font-bold mb-2">
+                                        <i class="fa-solid fa-music mr-1"></i>オレンジ / 動画 MAD
+                                    </div>
+                                    <h3 class="font-extrabold text-slate-800 text-base leading-snug mb-2 group-hover:text-sky-600 transition-colors">
+                                        【MAD】転生したらスライムだった件×オレンジ
+                                    </h3>
+                                    <p class="text-slate-600 text-xs leading-relaxed">
+                                        転スラの名シーンと名曲「オレンジ」がマッチした感動のファンMAD映像。
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="p-4 pt-0">
+                                <a href="https://youtu.be/VTKSed8UH-4?si=1adScGzHDKI2Q1pC" target="_blank" rel="noopener noreferrer"
+                                   class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md transition-transform hover:scale-[1.02]">
+                                    <i class="fa-brands fa-youtube text-base"></i>
+                                    <span>動画を見に行く</span>
+                                    <i class="fa-solid fa-arrow-right text-[10px] ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section id="features" class="py-12">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-10">
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-wide mb-2">
+                            <span class="text-sky-500"><i class="fa-solid fa-gem mr-2"></i></span>チャンネルの主なコンテンツ
+                        </h2>
+                        <p class="text-slate-600 text-sm sm:text-base">「転スラ宝庫」で投稿・展開している活動内容のご紹介</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Card 1 -->
+                        <div class="glass-card rounded-2xl p-6 relative overflow-hidden group">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-sky-400 to-blue-500 text-white flex items-center justify-center text-2xl mb-4 shadow-md group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-book-open text-sky-100"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800 mb-2">転スラ解説・考察</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                好きなキャラの魅力紹介、強さランキング、究極能力（アルティメットスキル）のまとめ、世界観や設定の深掘りなどをわかりやすく解説！
+                            </p>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="glass-card rounded-2xl p-6 relative overflow-hidden group">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-400 to-teal-500 text-white flex items-center justify-center text-2xl mb-4 shadow-md group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-headset"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800 mb-2">ゲーム実況・プレイ</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                あんまりしないかも
+                            </p>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="glass-card rounded-2xl p-6 relative overflow-hidden group">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-400 to-sky-500 text-white flex items-center justify-center text-2xl mb-4 shadow-md group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-film"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800 mb-2">MAD・動画企画</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                愛情たっぷりの楽曲合わせMAD動画や、「もし第5期があったら」というオリジナルCM企画など、クリエイティブな動画も発信！
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="favorites" class="py-12 relative">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-10">
+                        <span class="bg-sky-100 text-sky-700 text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Favorite Characters</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-wide mt-2">
+                            <span class="text-red-500"><i class="fa-solid fa-heart mr-2"></i></span>推しキャラクター紹介
+                        </h2>
+                        <p class="text-slate-600 text-sm sm:text-base mt-1">「転スラ宝庫」が特に推しているお気に入りの登場人物たち</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        
+                        <!-- Rimuru Card -->
+                        <div class="glass-card rounded-3xl p-6 border-2 border-sky-300/80 relative flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="bg-gradient-to-r from-sky-500 to-cyan-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                                        最推し / 主人公
+                                    </span>
+                                    <span class="text-sky-600 text-xs font-bold"><i class="fa-solid fa-star text-amber-400"></i> GOD Rank</span>
+                                </div>
+                                <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-sky-200 to-cyan-100 p-1 mb-4 shadow-lg flex items-center justify-center">
+                                    <!-- Rimuru Slime SVG Icon -->
+                                    <svg class="w-16 h-16 text-sky-500" viewBox="0 0 100 100" fill="currentColor">
+                                        <path d="M50 20 C25 20 10 40 10 65 C10 80 25 90 50 90 C75 90 90 80 90 65 C90 40 75 20 50 20 Z" fill="#38bdf8" opacity="0.85" />
+                                        <ellipse cx="35" cy="55" rx="4" ry="7" fill="#0f172a" />
+                                        <ellipse cx="65" cy="55" rx="4" ry="7" fill="#0f172a" />
+                                        <ellipse cx="37" cy="53" rx="1.5" ry="2.5" fill="#ffffff" />
+                                        <ellipse cx="67" cy="53" rx="1.5" ry="2.5" fill="#ffffff" />
+                                        <path d="M42 68 Q50 74 58 68" stroke="#0f172a" stroke-width="3" fill="none" stroke-linecap="round" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-2xl font-black text-center text-slate-800 mb-1">リムル＝テンペスト</h3>
+                                <div class="text-center text-xs text-sky-600 font-bold mb-3">ジュラ・テンペスト連邦国 盟主</div>
+                                <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                                    スライムの可愛さと魔王としての圧倒的なカッコよさを兼ね備えた大好きな主人公！仲間想いなところも魅力的。
+                                </p>
+                            </div>
+                            <div class="bg-sky-50/80 rounded-2xl p-3 border border-sky-100">
+                                <div class="text-xs font-bold text-slate-500 mb-1">好き度メーター</div>
+                                <div class="w-full bg-sky-200 rounded-full h-2.5 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-sky-400 to-blue-600 h-2.5 rounded-full" style="width: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dino Card -->
+                        <div class="glass-card rounded-3xl p-6 border-2 border-indigo-200/80 relative flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                                        推し / 八星魔王
+                                    </span>
+                                    <span class="text-indigo-600 text-xs font-bold"><i class="fa-solid fa-moon text-indigo-400"></i> 魔王</span>
+                                </div>
+                                <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-indigo-100 to-purple-100 p-1 mb-4 shadow-lg flex items-center justify-center">
+                                    <div class="text-4xl text-indigo-500">
+                                        <i class="fa-solid fa-bed"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-2xl font-black text-center text-slate-800 mb-1">ディーノ</h3>
+                                <div class="text-center text-xs text-indigo-600 font-bold mb-3">『怠惰の王（ベルフェゴール）』</div>
+                                <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                                    普段のぐうたらでやる気のない怠惰な性格と、本気を出した時のギャップ＆凄まじい強さが大好きな魔王！
+                                </p>
+                            </div>
+                            <div class="bg-indigo-50/80 rounded-2xl p-3 border border-indigo-100">
+                                <div class="text-xs font-bold text-slate-500 mb-1">好き度メーター</div>
+                                <div class="w-full bg-indigo-200 rounded-full h-2.5 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-indigo-400 to-purple-600 h-2.5 rounded-full" style="width: 95%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ryota Card -->
+                        <div class="glass-card rounded-3xl p-6 border-2 border-emerald-200/80 relative flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="bg-gradient-to-r from-emerald-500 to-teal-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                                        推し / 異世界人
+                                    </span>
+                                    <span class="text-emerald-600 text-xs font-bold"><i class="fa-solid fa-child text-emerald-500"></i> 異世界の子供</span>
+                                </div>
+                                <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-emerald-100 to-teal-100 p-1 mb-4 shadow-lg flex items-center justify-center">
+                                    <div class="text-4xl text-emerald-500">
+                                        <i class="fa-solid fa-user-shield"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-2xl font-black text-center text-slate-800 mb-1">リョウタ</h3>
+                                <div class="text-center text-xs text-emerald-600 font-bold mb-3">（関口良太 / リョウタ・セキグチ）</div>
+                                <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                                    シズさんの教え子の一人。狂戦士化（バーサーク）の素質を持ち、成長していく姿や健気な魅力が注目のキャラクター！
+                                </p>
+                            </div>
+                            <div class="bg-emerald-50/80 rounded-2xl p-3 border border-emerald-100">
+                                <div class="text-xs font-bold text-slate-500 mb-1">好き度メーター</div>
+                                <div class="w-full bg-emerald-200 rounded-full h-2.5 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-emerald-400 to-teal-600 h-2.5 rounded-full" style="width: 90%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section class="pb-16">
+                <div class="max-w-4xl mx-auto px-4 sm:px-6">
+                    <div class="glass-panel-dark rounded-3xl p-8 sm:p-10 text-center relative overflow-hidden shadow-2xl">
+                        <div class="absolute -right-10 -top-10 w-40 h-40 bg-sky-500/20 rounded-full blur-2xl"></div>
+                        <div class="relative z-10">
+                            <h2 class="text-2xl sm:text-3xl font-black text-white mb-3">
+                                「転スラ宝庫」を応援しよう！
+                            </h2>
+                            <p class="text-sky-200 text-sm sm:text-base max-w-xl mx-auto mb-6 leading-relaxed">
+                                転スラが大好きなファンとして、楽しく動画を投稿中！<br>
+                                チャンネル登録・高評価で応援していただけたらとっても嬉しいです！
+                            </p>
+                            <a href="https://www.youtube.com/@tensura-4" target="_blank" rel="noopener noreferrer" 
+                               class="inline-flex items-center gap-3 px-8 py-4 rounded-full font-extrabold text-white bg-gradient-to-r from-red-600 via-rose-600 to-red-500 hover:scale-105 transition-transform duration-300 shadow-xl shadow-red-600/40 text-lg">
+                                <i class="fa-brands fa-youtube text-2xl"></i>
+                                <span>YouTubeチャンネルへ飛ぶ</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="bg-slate-900/90 text-slate-300 backdrop-blur-md border-t border-sky-900/50 py-10">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-slate-800">
+                    <div class="flex items-center gap-3">
+                        <img src="https://yt3.googleusercontent.com/PgUt_3VR_Mfo56NriRPSuUrMKXvPkqL1xmsVGqzoKxtkct4G3TszMu1Z70P8FldK4cefzIWXCQ=s160-c-k-c0x00ffffff-no-rj" 
+                             alt="転スラ宝庫" 
+                             class="w-10 h-10 rounded-full"
+                             onerror="this.src='https://placehold.co/100x100/38bdf8/ffffff?text=宝庫'">
+                        <div>
+                            <div class="font-bold text-lg text-white">転スラ宝庫</div>
+                            <a href="https://www.youtube.com/@tensura-4" target="_blank" rel="noopener noreferrer" class="text-xs text-sky-400 hover:underline font-montserrat">
+                                YouTube @tensura-4
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Final Update Date Badge -->
+                    <div class="bg-slate-800/80 border border-slate-700/80 px-4 py-2 rounded-xl text-xs flex items-center gap-2">
+                        <i class="fa-regular fa-clock text-sky-400"></i>
+                        <span class="text-slate-400">最終更新日:</span>
+                        <span class="font-bold text-sky-300 font-montserrat">2026年9月6日</span>
+                    </div>
+                </div>
+
+                <div class="pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+                    <p class="text-center md:text-left leading-relaxed">
+                        当サイトはYouTubeチャンネル「転スラ宝庫」のプロファイルWebサイトです。<br>
+                        『転生したらスライムだった件』に関する画像・ロゴ・キャラクター等の著作権・商標権は、原作者・出版社および関係各社に帰属します。
+                    </p>
+                    <p class="font-montserrat text-slate-400 text-center md:text-right font-medium">
+                        &copy; 2026 転スラ宝庫 All Rights Reserved.
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Floating Rimuru Slime Bubbles Generator
+        function createBubbles() {
+            const container = document.getElementById('bubbles-container');
+            if (!container) return;
+            const bubbleCount = 18;
+
+            for (let i = 0; i < bubbleCount; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                
+                // Randomize size, position, duration, and delay
+                const size = Math.random() * 40 + 15;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 8 + 8;
+                const delay = Math.random() * 10;
+
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${left}%`;
+                bubble.style.animation = `bubble ${duration}s infinite linear`;
+                bubble.style.animationDelay = `${delay}s`;
+
+                container.appendChild(bubble);
+            }
+        }
+
+        // Mobile Menu Toggle logic
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        if (mobileBtn && mobileMenu) {
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        }
+
+        // Subscriber Counter Animation
+        function animateCounter() {
+            const counterEl = document.getElementById('sub-counter');
+            if (!counterEl) return;
+
+            let count = 0;
+            const target = 6;
+            const speed = 250;
+
+            const update = () => {
+                if (count < target) {
+                    count++;
+                    counterEl.innerText = count + '人';
+                    setTimeout(update, speed);
+                } else {
+                    counterEl.innerText = target + '人';
+                }
+            };
+            update();
+        }
+
+        // Window Load Initializer
+        window.onload = function() {
+            createBubbles();
+            animateCounter();
+        };
+    </script>
+</body>
+</html>
